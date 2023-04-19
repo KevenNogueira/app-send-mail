@@ -45,8 +45,7 @@ class Email
 $mensagemEmail = new Email($_POST['para'], $_POST['assunto'], $_POST['mensagem']);
 
 if ($mensagemEmail->validaMensagem()) {
-    echo 'Mensagem não e valida!';
-    die();
+    header('Location: Index.php');
 }
 
 $mail = new PHPMailer(true);
@@ -79,8 +78,9 @@ try {
     $mail->Body    = $mensagemEmail->__get('mensagem');
 
     $mail->send();
-    echo 'Mensagem enviada com sucesso!';
+
+    header('Location: Feedback.php?status=sucesso');
 } catch (Exception $e) {
-    echo "Não foi possivel enviar o e-mail no momento! Favor tentar mais tarde </br>";
-    echo 'Detalhes do erro: {$mail->ErrorInfo}';
+
+    header('Location: Feedback.php?status=erro');
 }
